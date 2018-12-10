@@ -20,14 +20,42 @@ QXLSX_SOURCEPATH=./../QXlsx/QXlsx/source/
 include(./../QXlsx/QXlsx/QXlsx.pri)
 include(./../shared/shared.pri)
 
+INCLUDEPATH += ./../../../boost/boost_1_60_0/
+
 SOURCES += \
-    src/event.cpp \
-    src/IcalGenerator.cpp \
-    src/JahreskalenderParser.cpp \
-    src/main.cpp \
-    src/sqleventmodel.cpp \
-    src/SqlTableNames.cpp \
-    src/uebungskartegenerator.cpp
+    middleware/event.cpp \
+    middleware/IcalGenerator.cpp \
+    middleware/JahreskalenderParser.cpp \
+    middleware/main.cpp \
+    middleware/sqleventmodel.cpp \
+    middleware/SqlTableNames.cpp \
+    middleware/uebungskartegenerator.cpp \
+    middleware/adf.cpp \
+    middleware/fwunit.cpp \
+    middleware/drilltype.cpp \
+    middleware/firebrigade.cpp \
+    middleware/init.cpp \
+    database/fwUnitDb.cpp \
+    database/fwdrilltypeDb.cpp \
+    database/dbconnectioninterface.cpp
+
+HEADERS += \
+    middleware/event.h \
+    middleware/IcalGenerator.hpp \
+    middleware/JahreskalenderParser.hpp \
+    middleware/sqleventmodel.h \
+    middleware/SqlTableNames.hpp \
+    middleware/uebungskartegenerator.hpp \
+    middleware/adf.hpp \
+    middleware/firefighter.hpp \
+    middleware/fwunit.hpp \
+    middleware/drilltype.hpp \
+    middleware/firebrigade.hpp \
+    middleware/init.hpp \
+    database/fwUnitDb.hpp \
+    database/fwdrilltypeDb.hpp \
+    database/dbconnectioninterface.hpp \
+    database/dbtabledefinition.hpp
 
 RESOURCES += \
     resources.qrc
@@ -54,10 +82,3 @@ DISTFILES += \
     images/eventindicator7.png \
     src/src.pri
 
-HEADERS += \
-    src/event.h \
-    src/IcalGenerator.hpp \
-    src/JahreskalenderParser.hpp \
-    src/sqleventmodel.h \
-    src/SqlTableNames.hpp \
-    src/uebungskartegenerator.hpp

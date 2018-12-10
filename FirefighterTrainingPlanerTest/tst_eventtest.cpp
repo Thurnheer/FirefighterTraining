@@ -1,22 +1,5 @@
-#include <QtTest>
-#include <QCoreApplication>
-
-// add necessary includes here
-
-class EventTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    EventTest();
-    ~EventTest();
-
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
-    void test_case1();
-
-};
+#include "tst_eventtest.hpp"
+#include "autotest.hpp"
 
 EventTest::EventTest()
 {
@@ -28,21 +11,9 @@ EventTest::~EventTest()
 
 }
 
-void EventTest::initTestCase()
-{
-
-}
-
-void EventTest::cleanupTestCase()
-{
-
-}
-
 void EventTest::test_case1()
 {
-
+    QVERIFY(true);
 }
 
-QTEST_MAIN(EventTest)
-
-#include "tst_eventtest.moc"
+DECLARE_TEST(EventTest)
