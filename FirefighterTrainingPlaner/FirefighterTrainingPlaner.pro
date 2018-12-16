@@ -20,7 +20,7 @@ QXLSX_SOURCEPATH=./../QXlsx/QXlsx/source/
 include(./../QXlsx/QXlsx/QXlsx.pri)
 include(./../shared/shared.pri)
 
-INCLUDEPATH += ./../../../boost/boost_1_60_0/
+INCLUDEPATH += ./../../../boost/boost_1_69_0/
 
 SOURCES += \
     middleware/event.cpp \

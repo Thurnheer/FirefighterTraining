@@ -3,7 +3,7 @@ QT += gui
 CONFIG += qt warn_on depend_includepath testcase
 CONFIG += c++17
 
-INCLUDEPATH += ./../../../boost/boost_1_60_0/
+INCLUDEPATH += ./../../../boost/boost_1_69_0/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/database
 
 TEMPLATE = app

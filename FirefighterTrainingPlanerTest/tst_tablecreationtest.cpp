@@ -6,7 +6,7 @@
 BOOST_FUSION_DEFINE_STRUCT(
     (TST), TestTable,
     (SQL::TABLENAME, Event)
-    (SQL::ID, id)
+    (SQL::PRIMARY_KEY, id)
     (SQL::TEXT, name)
     (SQL::INTEGER, einteilung)
     (SQL::TEXT, einteilungsindex)
@@ -21,9 +21,9 @@ BOOST_FUSION_DEFINE_STRUCT(
 BOOST_FUSION_DEFINE_STRUCT(
     (TST), RelationTable,
     (SQL::TABLENAME, Relation)
-    (SQL::ID, id)
+    (SQL::PRIMARY_KEY, id)
     (SQL::TEXT, name)
-    (TST::TestTable, Event)
+    (SQL::FOREIGN_KEY<TST::TestTable>, Event)
 )
 
 TableCreationTest::TableCreationTest()
@@ -46,7 +46,7 @@ void TableCreationTest::createLinkedTable()
     TST::RelationTable r;
 
     const QString result(createTableName(r).c_str());
-//    QCOMPARE(result, EXPECTED);
+    QCOMPARE(result, EXPECTED);
 }
 
 DECLARE_TEST(TableCreationTest)

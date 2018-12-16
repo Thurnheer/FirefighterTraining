@@ -7,7 +7,9 @@
 #include "boost/fusion/include/zip.hpp"
 #include "boost/fusion/include/transform.hpp"
 #include "boost/fusion/include/algorithm.hpp"
+#include "boost/fusion/include/find.hpp"
 #include "boost/mpl/range_c.hpp"
+#include <utility>
 
 namespace SQL
 {
@@ -17,7 +19,7 @@ struct TABLENAME
     inline static constexpr char value[] = " (";
 };
 
-struct ID
+struct PRIMARY_KEY
 {
     inline static constexpr char value[] = " INTEGER PRIMARY KEY,";
 };
@@ -37,14 +39,53 @@ struct DATE
     inline static constexpr char value[] = " DATE,";
 };
 
+template<typename T>
+struct FOREIGN_KEY
+{
+    inline static constexpr char value[] = " FOREIGN KEY (";
+};
+
+}
+
+template<class S>
+auto combineWithNames(S const& s)
+{
+    typedef boost::mpl::range_c<int, 0, boost::fusion::result_of::size<S>::type::value> range;
+    static auto names = boost::fusion::transform(range(), [](auto i)->std::string{
+        return boost::fusion::extension::struct_member_name<S, i>::call();
+    });
+    return std::move(boost::fusion::zip(names, s));
+}
+
+template<class S>
+auto appendNames(S const& s)
+{
+    auto withNames = boost::fusion::as_vector(combineWithNames(s));
+    return std::move(boost::fusion::flatten(withNames));
 }
 
 struct SqlWriter
 {
-    SqlWriter()
-    : _str("create table")
+    explicit SqlWriter(std::string& str)
+    : _str(str)
     {
+        _str = "create table";
+    }
 
+    ~SqlWriter()
+    {
+        _str.back() = ')';
+    }
+
+    template<typename T>
+    void operator()(SQL::FOREIGN_KEY<T> const & val)
+    {
+        _str += SQL::FOREIGN_KEY<T>::value;
+        /*auto foreignTableKey = boost::fusion::find<SQL::PRIMARY_KEY>(val);
+        auto withNames = boost::fusion::as_vector(combineWithNames(foreignTableKey));
+        auto flat = boost::fusion::flatten<decltype(withNames)>(withNames);
+        this->operator()(flat);*/
+        _str += ")";
     }
 
     template<typename T>
@@ -58,34 +99,20 @@ struct SqlWriter
         _str += " " + val;
     }
 
-    std::string getString() const
-    {
-        _str.back() = ')';
-        return _str;
-    }
-
 private:
-    mutable std::string _str;
+    std::string& _str;
 };
-
-template<class S>
-auto combineWithNames(S const& s)
-{
-    typedef boost::mpl::range_c<int, 0, boost::fusion::result_of::size<S>::type::value> range;
-    static auto names = boost::fusion::transform(range(), [](auto i)->std::string{
-        return boost::fusion::extension::struct_member_name<S, i>::call();
-    });
-    return boost::fusion::zip(names, s);
-}
 
 template<typename T>
 std::string createTableName(T const& val)
 {
-    SqlWriter w;
+    std::string sqlStr;
+    SqlWriter w(sqlStr);
     auto withNames = boost::fusion::as_vector(combineWithNames(val));
     auto flat = boost::fusion::flatten<decltype(withNames)>(withNames);
+    //auto withNames = appendNames(val);
     boost::fusion::for_each(flat, w);
-    return w.getString();
+    return sqlStr;
 }
 
 
