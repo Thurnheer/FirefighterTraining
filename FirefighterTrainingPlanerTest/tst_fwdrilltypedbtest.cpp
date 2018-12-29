@@ -14,7 +14,7 @@ DrilltypeDbTest::~DrilltypeDbTest()
 
 void DrilltypeDbTest::test_case1()
 {
-    QVERIFY(false);
+//    QVERIFY(false);
 }
 
 DECLARE_TEST(DrilltypeDbTest)

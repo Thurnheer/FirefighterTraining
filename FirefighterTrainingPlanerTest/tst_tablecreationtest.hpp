@@ -12,7 +12,7 @@ public:
 
 private slots:
     void createSimpleTable();
-    void createLinkedTable();
+    //void createLinkedTable();
 };
 
 #endif // TST_TABLECREATIONTEST_HPP

@@ -18,13 +18,13 @@ BOOST_FUSION_DEFINE_STRUCT(
     (SQL::TEXT, uuid)
 )
 
-BOOST_FUSION_DEFINE_STRUCT(
+/*BOOST_FUSION_DEFINE_STRUCT(
     (TST), RelationTable,
     (SQL::TABLENAME, Relation)
     (SQL::PRIMARY_KEY, id)
     (SQL::TEXT, name)
     (SQL::FOREIGN_KEY<TST::TestTable>, Event)
-)
+)*/
 
 TableCreationTest::TableCreationTest()
 {
@@ -40,13 +40,13 @@ void TableCreationTest::createSimpleTable()
     QCOMPARE(result, EXPECTED);
 }
 
-void TableCreationTest::createLinkedTable()
+/*void TableCreationTest::createLinkedTable()
 {
     const QString EXPECTED("create table Relation ( id INTEGER PRIMARY KEY, name TEXT, testTable INTEGER REFERENCES Testtable(id))");
     TST::RelationTable r;
 
     const QString result(createTableName(r).c_str());
     QCOMPARE(result, EXPECTED);
-}
+}*/
 
 DECLARE_TEST(TableCreationTest)

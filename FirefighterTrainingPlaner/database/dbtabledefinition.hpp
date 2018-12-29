@@ -9,6 +9,8 @@
 #include "boost/fusion/include/algorithm.hpp"
 #include "boost/fusion/include/find.hpp"
 #include "boost/mpl/range_c.hpp"
+#include "boost/mpl/placeholders.hpp"
+#include "boost/mpl/same_as.hpp"
 #include <utility>
 
 namespace SQL
@@ -16,33 +18,35 @@ namespace SQL
 
 struct TABLENAME
 {
-    inline static constexpr char value[] = " (";
+    inline static constexpr char sqlExpr[] = " (";
 };
 
 struct PRIMARY_KEY
 {
-    inline static constexpr char value[] = " INTEGER PRIMARY KEY,";
+    inline static constexpr char sqlExpr[] = " INTEGER PRIMARY KEY,";
 };
 
 struct INTEGER
 {
-    inline static constexpr char value[] = " INT,";
+    inline static constexpr char sqlExpr[] = " INT,";
 };
 
 struct TEXT
 {
-    inline static constexpr char value[] = " TEXT,";
+    inline static constexpr char sqlExpr[] = " TEXT,";
 };
 
 struct DATE
 {
-    inline static constexpr char value[] = " DATE,";
+    inline static constexpr char sqlExpr[] = " DATE,";
 };
 
 template<typename T>
 struct FOREIGN_KEY
 {
-    inline static constexpr char value[] = " FOREIGN KEY (";
+    typedef T type;
+    inline static T const value;
+    inline static constexpr char sqlExpr[] = " FOREIGN KEY (";
 };
 
 }
@@ -80,18 +84,18 @@ struct SqlWriter
     template<typename T>
     void operator()(SQL::FOREIGN_KEY<T> const & val)
     {
-        _str += SQL::FOREIGN_KEY<T>::value;
-        /*auto foreignTableKey = boost::fusion::find<SQL::PRIMARY_KEY>(val);
-        auto withNames = boost::fusion::as_vector(combineWithNames(foreignTableKey));
-        auto flat = boost::fusion::flatten<decltype(withNames)>(withNames);
-        this->operator()(flat);*/
+        _str += SQL::FOREIGN_KEY<T>::sqlExpr;
+        boost::fusion::filter_view<T const, boost::is_same<SQL::PRIMARY_KEY, boost::mpl::placeholders::_>::type > foreignTableKey(SQL::FOREIGN_KEY<T>::value);
+        //auto withNames = boost::fusion::as_vector(combineWithNames(foreignTableKey));
+        //auto flat = boost::fusion::flatten<decltype(withNames)>(withNames);
+        //this->operator()(flat);
         _str += ")";
     }
 
     template<typename T>
     void operator()(T const &) const
     {
-        _str += T::value;
+        _str += T::sqlExpr;
     }
 
     void operator()(std::string const & val) const
