@@ -163,7 +163,7 @@ ApplicationWindow {
                         anchors.margins: -1
                         width: 12
                         height: width
-                        source: "qrc:/images/eventindicator.png"
+                        source: "qrc:FirefighterTrainingPlaner/images/eventindicator.png"
                     }
 
                     Label {

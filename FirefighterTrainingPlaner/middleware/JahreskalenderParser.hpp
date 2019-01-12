@@ -15,7 +15,7 @@ class JahreskalenderParser : public QObject
     Q_OBJECT
 
 public:
-    JahreskalenderParser(QObject *parent = NULL);
+    JahreskalenderParser(QObject *parent = nullptr);
     virtual ~JahreskalenderParser();
 
     Q_INVOKABLE void importCalendar(const QUrl &path);

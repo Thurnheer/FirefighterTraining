@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>./../FirefighterTrainingPlaner/qml/main.qml</file>
+        <file>./../FirefighterTrainingPlaner/images/eventindicator.png</file>
+    </qresource>
+</RCC>

@@ -40,14 +40,17 @@
 
 #include <QtQml>
 
-#include "qtquickcontrolsapplication.h"
+//#include "qtquickcontrolsapplication.h"
+#include <QtQuickControls2>
 #include "sqleventmodel.h"
 #include "JahreskalenderParser.hpp"
 #include "IcalGenerator.hpp"
 
 int main(int argc, char *argv[])
 {
-    QtQuickControlsApplication app(argc, argv);
+    //QtQuickControlsApplication app(argc, argv);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication app(argc, argv);
     qmlRegisterType<SqlEventModel>("ch.ihrefeuerwehr.eventModel", 1, 0, "SqlEventModel");
     qmlRegisterType<JahreskalenderParser>("ch.ihrefeuerwehr.xlsParser", 1, 0, "JahreskalenderParser");
     qmlRegisterType<IcalGenerator>("ch.ihrefeuerwehr.icalGenerator", 1, 0, "IcalGenerator");

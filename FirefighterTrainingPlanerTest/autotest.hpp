@@ -68,7 +68,7 @@ public:
  }
 };
 
-#define DECLARE_TEST(className) static Test<className> t(#className);
+#define DECLARE_TEST(className) static Test<className> className(#className);
 
 #define TEST_MAIN \
  int main(int argc, char *argv[]) \
