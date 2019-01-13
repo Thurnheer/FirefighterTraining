@@ -54,9 +54,9 @@ void ImportCalendarTest::getDate__1_1_Neujahrsapero__cellNeujahrsapero() const
 
     IO::CalendarParser parser(testDoc);
 
-    std::vector<QXlsx::Cell*> const RESULT = parser.getDate(1, 1);
-    QCOMPARE(2, RESULT.size());
-    QCOMPARE(EVENT, RESULT.at(0)->value().toString().toStdString());
+    std::vector<QXlsx::Cell const*> const RESULT = parser.getDate(1, 1);
+    QCOMPARE(RESULT.size(), 1);
+    QCOMPARE(RESULT.at(0)->value().toString().toStdString(), EVENT);
 
 }
 
@@ -67,7 +67,34 @@ void ImportCalendarTest::getYear_Jahreskalender2019FWBAH_2019() const
 
     IO::CalendarParser parser(testDoc);
 
-    QCOMPARE(2019, parser.getYear());
+    QCOMPARE(parser.getYear(), 2019);
+}
+
+void ImportCalendarTest::getDate_FileJahresKalender2019_Zug1_1() const
+{
+    QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
+
+    IO::CalendarParser p(t);
+    QCOMPARE(2019, p.getYear());
+    std::vector<QXlsx::Cell const*> const Result = p.getDate(28, 1);
+    std::string v(Result.at(0)->value().toString().toStdString());
+    std::string vv(Result.at(1)->value().toString().toStdString());
+
+    QCOMPARE(v, "Zug 1/1");
+    QCOMPARE(vv, "Ferien");
+}
+
+void ImportCalendarTest::getDate_FileJahresKalender2019_FerienInConcatenatedCell() const
+{
+    QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
+
+    IO::CalendarParser p(t);
+    QCOMPARE(2019, p.getYear());
+    std::vector<QXlsx::Cell const*> const Result = p.getDate(29, 1);
+    std::string v(Result.at(0)->value().toString().toStdString());
+    std::string vv(Result.at(1)->value().toString().toStdString());
+
+    QCOMPARE(vv, "Ferien");
 }
 
 

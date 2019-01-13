@@ -53,6 +53,12 @@ namespace AutoTest
 
   return ret;
  }
+
+
+ inline QString inputPath()
+ {
+    return QString("/media/paenny/FastData/Projects/FirefighterTraining/FirefighterTraining/FirefighterTrainingPlanerTest/testData/input/");
+ }
 }
 
 template <class T>

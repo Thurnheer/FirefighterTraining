@@ -87,7 +87,7 @@ public:
     CalendarParser(QXlsx::Document const& document);
     int getYear() const;
 
-    std::vector<QXlsx::Cell*> getDate(unsigned int day, unsigned int month) const;
+    std::vector<QXlsx::Cell const*> getDate(unsigned int day, unsigned int month) const;
 
 private:
     QXlsx::Document const& document_;
