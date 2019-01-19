@@ -2,6 +2,10 @@
 #include "xlsxdocument.h"
 #include "calendarlayout.hpp"
 
+namespace  {
+    const int MAX_DAYS_IN_YEAR = 366;
+}
+
 constexpr std::array<IO::Range, IO::CalendarLayout::NUMMONTH> IO::CalendarLayout::months; // declaration for external linkage
 constexpr IO::Range IO::CalendarLayout::EVENT; // declaration for external linkage
 
@@ -18,6 +22,18 @@ int IO::CalendarParser::getYear() const
     if(pos > -1)
         return regex.cap(1).toInt();
     return -1;
+}
+
+void IO::CalendarParser::pumpAllEvents(pipe<const QXlsx::Cell *> &out)
+{
+    QDate date(getYear(), 1, 1);
+    for (int i = 0; i < MAX_DAYS_IN_YEAR; i++) {
+        std::vector<QXlsx::Cell const*> cells = cellsFromDate(date);
+        for (auto i : cells) {
+            out << i;
+        }
+        date = date.addDays(1);
+    }
 }
 
 std::vector<QXlsx::Cell const*> IO::CalendarParser::cellsFromDate(const QDate& date) const

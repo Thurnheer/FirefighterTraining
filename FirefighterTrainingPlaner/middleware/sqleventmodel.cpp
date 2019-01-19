@@ -124,7 +124,6 @@ void SqlEventModel::createConnection()
     db.setDatabaseName(":memory:");
     if (!db.open()) {
         qFatal("Cannot open database");
-        return;
     }
 
     QSqlQuery query;

@@ -1,49 +1,25 @@
 #ifndef CELLFILTERS_HPP
 #define CELLFILTERS_HPP
 
-#include "xlsxcell.h"
 #include "pipe.hpp"
+#include "QColor"
+#include "QDate"
+#include <tuple>
 
-inline void filterEmpty(pipe<QXlsx::Cell const*> in, pipe<QXlsx::Cell const*> out)
-{
-    QXlsx::Cell const* cell = nullptr;
-    do
-    {
-        in >> cell;
-        if(!cell->value().toString().isEmpty())
-        {
-            out << cell;
-        }
-    }
-    while ( cell != nullptr);
+namespace QXlsx {
+    class Cell;
 }
 
-inline void filterBackgroundColor(int const color, pipe<QXlsx::Cell const*>& in, pipe<QXlsx::Cell const*>& out)
-{
-    QXlsx::Cell const* cell = nullptr;
-    do
-    {
-        in >> cell;
-        if(cell->format().fillIndex() == color)
-        {
-            out << cell;
-        }
-    }
-    while(cell != nullptr);
-}
+namespace IO {
 
-inline void filterCellValueColor(QColor const color, pipe<QXlsx::Cell const*>& in, pipe<QXlsx::Cell const*>& out)
-{
-    QXlsx::Cell const* cell = nullptr;
-    do
-    {
-        in >> cell;
-        if(cell->format().fontColor() == color)
-        {
-            out << cell;
-        }
-    }
-    while(cell != nullptr);
+using EventCell = std::tuple<QDate, QXlsx::Cell const*>;
+
+void filterEmpty(pipe<EventCell>& in, pipe<EventCell>& out);
+
+void filterBackgroundColor(int const color, pipe<EventCell>& in, pipe<EventCell>& out);
+
+void filterCellValueColor(QColor const color, pipe<EventCell>& in, pipe<EventCell>& out);
+
 }
 
 #endif // CELLFILTERS_HPP

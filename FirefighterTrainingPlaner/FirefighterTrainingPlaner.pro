@@ -36,7 +36,8 @@ SOURCES += \
     database/fwUnitDb.cpp \
     database/fwdrilltypeDb.cpp \
     database/dbconnectioninterface.cpp \
-    ImportExport/calendarparser.cpp
+    ImportExport/calendarparser.cpp \
+    ImportExport/cellfilters.cpp
 
 HEADERS += \
     middleware/event.h \

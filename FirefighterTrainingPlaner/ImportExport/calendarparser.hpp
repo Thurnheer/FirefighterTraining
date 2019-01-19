@@ -22,6 +22,7 @@ public:
     CalendarParser(QXlsx::Document const& document);
     int getYear() const;
 
+    void pumpAllEvents(pipe<QXlsx::Cell const*>& out);
     std::vector<QXlsx::Cell const*> cellsFromDate(const QDate &date) const;
     QList<QXlsx::CellRange> getCellRange() const;
 
