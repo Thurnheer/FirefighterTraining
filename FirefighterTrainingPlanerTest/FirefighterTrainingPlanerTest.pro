@@ -2,6 +2,7 @@ QT += testlib
 QT += gui
 CONFIG += qt warn_on depend_includepath testcase
 CONFIG += c++17
+CONFIG += test
 
 INCLUDEPATH += ./../../../boost/boost_1_69_0/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/database
@@ -9,7 +10,9 @@ INCLUDEPATH += ./../FirefighterTrainingPlaner/ImportExport
 INCLUDEPATH += ./../QXlsx/header/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/container
 
-TEMPLATE = app
+#TEMPLATE = app
+message(Test build)
+TARGET = UnitTests
 
 SOURCES +=  tst_eventtest.cpp \
     tst_main.cpp \

@@ -1,10 +1,11 @@
 #include "tst_importcalendartest.hpp"
 #include "autotest.hpp"
 #include "xlsxdocument.h"
+#include "xlsxcellrange.h"
 #include "calendarparser.hpp"
 #include <QVariant>
 
-void CalendarLayoutTest::getMonthRange_seventhJanuary_RangeSevenThree() const
+void TestCalendarLayout::testGetMonthRange_seventhJanuary_RangeSevenThree() const
 {
     const IO::Range EXPECTED{ 9, 3, 2};
     const IO::Range result = IO::CalendarLayout::getMonthRange(7, 1);
@@ -12,7 +13,7 @@ void CalendarLayoutTest::getMonthRange_seventhJanuary_RangeSevenThree() const
     static_assert(IO::Range{ 9, 3, 2} == IO::CalendarLayout::getMonthRange(7, 1), "The cell index is not correct");
 }
 
-void CalendarLayoutTest::getMonthRange_18March_Range20_11() const
+void TestCalendarLayout::getMonthRange_18March_Range20_11() const
 {
     const IO::Range EXPECTED{ 20, 11, 2};
     const IO::Range result = IO::CalendarLayout::getMonthRange(18, 3);
@@ -20,7 +21,7 @@ void CalendarLayoutTest::getMonthRange_18March_Range20_11() const
     static_assert(IO::Range{20, 11, 2} == IO::CalendarLayout::getMonthRange(18, 3), "The cell index is not correct");
 }
 
-void CalendarLayoutTest::getMonthRange_15July_Range50_3() const
+void TestCalendarLayout::getMonthRange_15July_Range50_3() const
 {
     const IO::Range EXPECTED{ 50, 3, 2};
     const IO::Range result = IO::CalendarLayout::getMonthRange(15, 7);
@@ -28,7 +29,7 @@ void CalendarLayoutTest::getMonthRange_15July_Range50_3() const
     static_assert(IO::Range{50, 3, 2} == IO::CalendarLayout::getMonthRange(15, 7), "The cell index is not correct");
 }
 
-void CalendarLayoutTest::getMonthRange_31December_Range66_23() const
+void TestCalendarLayout::getMonthRange_31December_Range66_23() const
 {
     const IO::Range EXPECTED{ 66, 23, 2};
     const IO::Range result = IO::CalendarLayout::getMonthRange(31, 12);
@@ -36,7 +37,7 @@ void CalendarLayoutTest::getMonthRange_31December_Range66_23() const
     static_assert(IO::Range{66, 23, 2} == IO::CalendarLayout::getMonthRange(31, 12), "The cell index is not correct");
 }
 
-DECLARE_TEST(CalendarLayoutTest)
+DECLARE_TEST(TestCalendarLayout)
 
 ImportCalendarTest::ImportCalendarTest()
 {
@@ -54,7 +55,8 @@ void ImportCalendarTest::getDate__1_1_Neujahrsapero__cellNeujahrsapero() const
 
     IO::CalendarParser parser(testDoc);
 
-    std::vector<QXlsx::Cell const*> const RESULT = parser.getDate(1, 1);
+    QDate date(2019, 1, 1);
+    std::vector<QXlsx::Cell const*> const RESULT = parser.cellsFromDate(date);
     QCOMPARE(RESULT.size(), 1);
     QCOMPARE(RESULT.at(0)->value().toString().toStdString(), EVENT);
 
@@ -75,8 +77,11 @@ void ImportCalendarTest::getDate_FileJahresKalender2019_Zug1_1() const
     QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
 
     IO::CalendarParser p(t);
-    QCOMPARE(2019, p.getYear());
-    std::vector<QXlsx::Cell const*> const Result = p.getDate(28, 1);
+    const int year = p.getYear();
+    QCOMPARE(2019, year);
+    QDate date(year, 1, 28);
+    std::vector<QXlsx::Cell const*> const Result = p.cellsFromDate(date);
+    QXlsx::Format f = Result[0]->format();
     std::string v(Result.at(0)->value().toString().toStdString());
     std::string vv(Result.at(1)->value().toString().toStdString());
 
@@ -84,17 +89,20 @@ void ImportCalendarTest::getDate_FileJahresKalender2019_Zug1_1() const
     QCOMPARE(vv, "Ferien");
 }
 
-void ImportCalendarTest::getDate_FileJahresKalender2019_FerienInConcatenatedCell() const
+void ImportCalendarTest::getDate_FileJahresKalender2019_EmptyConcatenatedCell() const
 {
     QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
 
     IO::CalendarParser p(t);
-    QCOMPARE(2019, p.getYear());
-    std::vector<QXlsx::Cell const*> const Result = p.getDate(29, 1);
+    const int year = p.getYear();
+    QCOMPARE(2019, year);
+    QDate date(year, 1, 29);
+    std::vector<QXlsx::Cell const*> const Result = p.cellsFromDate(date);
     std::string v(Result.at(0)->value().toString().toStdString());
     std::string vv(Result.at(1)->value().toString().toStdString());
 
-    QCOMPARE(vv, "Ferien");
+    QVERIFY(v.empty());
+    QVERIFY(vv.empty());
 }
 
 

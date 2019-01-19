@@ -3,6 +3,7 @@
 
 #include "pipe.hpp"
 #include "xlsxcell.h"
+#include "xlsxcellrange.h"
 #include <vector>
 #include <array>
 
@@ -14,21 +15,6 @@ namespace QXlsx {
 
 namespace IO
 {
-
-enum class Month
-{
-    January,
-    February,
-    March,
-    April,
-    May,
-    June,
-    July,
-    August,
-    September,
-    November,
-    December
-};
 
 struct Range
 {
@@ -87,23 +73,12 @@ public:
     CalendarParser(QXlsx::Document const& document);
     int getYear() const;
 
-    std::vector<QXlsx::Cell const*> getDate(unsigned int day, unsigned int month) const;
+    std::vector<QXlsx::Cell const*> cellsFromDate(const QDate &date) const;
+    QList<QXlsx::CellRange> getCellRange() const;
 
 private:
     QXlsx::Document const& document_;
 };
-
-[[noreturn]] inline void filterColor(pipe<QXlsx::Cell*>& in, pipe<QXlsx::Cell*>& out)
-{
-    for(QXlsx::Cell* cell; ; )
-    {
-        in >> cell;
-        if(cell->format().fillIndex() == 100)
-        {
-            out << cell;
-        }
-    }
-}
 
 }
 #endif // CALENDARPARSER_HPP
