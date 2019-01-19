@@ -4,6 +4,7 @@
 #include "xlsxcellrange.h"
 #include "calendarparser.hpp"
 #include <QVariant>
+#include "calendarlayout.hpp"
 
 void TestCalendarLayout::testGetMonthRange_seventhJanuary_RangeSevenThree() const
 {

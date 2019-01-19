@@ -1,5 +1,6 @@
 #include "calendarparser.hpp"
 #include "xlsxdocument.h"
+#include "calendarlayout.hpp"
 
 constexpr std::array<IO::Range, IO::CalendarLayout::NUMMONTH> IO::CalendarLayout::months; // declaration for external linkage
 constexpr IO::Range IO::CalendarLayout::EVENT; // declaration for external linkage

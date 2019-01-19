@@ -56,7 +56,8 @@ HEADERS += \
     database/dbconnectioninterface.hpp \
     database/dbtabledefinition.hpp \
     ImportExport/calendarparser.hpp \
-    ImportExport/cellfilters.hpp
+    ImportExport/cellfilters.hpp \
+    ImportExport/calendarlayout.hpp
 
 RESOURCES += \
     resources.qrc
