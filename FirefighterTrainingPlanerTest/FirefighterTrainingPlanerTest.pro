@@ -18,7 +18,8 @@ SOURCES +=  tst_eventtest.cpp \
     tst_main.cpp \
     tst_fwdrilltypedbtest.cpp \
     tst_tablecreationtest.cpp \
-    ImportExport/tst_importcalendartest.cpp
+    ImportExport/tst_importcalendartest.cpp \
+    ImportExport/testcalendarlayout.cpp
 
 HEADERS += \
     tst_eventtest.hpp \
@@ -26,7 +27,8 @@ HEADERS += \
     tst_fwdrilltypedbtest.hpp \
     tst_tablecreationtest.hpp \
     ImportExport/tst_importcalendartest.hpp \
-    container/channel.hpp
+    container/channel.hpp \
+    ImportExport/testcalendarlayout.hpp
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../QXlsx/ -lQXlsx
