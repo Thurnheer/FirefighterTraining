@@ -37,7 +37,9 @@ SOURCES += \
     database/fwdrilltypeDb.cpp \
     database/dbconnectioninterface.cpp \
     ImportExport/calendarparser.cpp \
-    ImportExport/cellfilters.cpp
+    ImportExport/cellfilters.cpp \
+    ImportExport/eventtypeparser.cpp \
+    ImportExport/eventdescriptionlayout.cpp
 
 HEADERS += \
     middleware/event.h \
@@ -58,7 +60,10 @@ HEADERS += \
     database/dbtabledefinition.hpp \
     ImportExport/calendarparser.hpp \
     ImportExport/cellfilters.hpp \
-    ImportExport/calendarlayout.hpp
+    ImportExport/calendarlayout.hpp \
+    ImportExport/eventtypeparser.hpp \
+    ImportExport/eventdescriptionlayout.hpp \
+    ImportExport/rangedefinition.hpp
 
 RESOURCES += \
     resources.qrc

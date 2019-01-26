@@ -1,22 +1,11 @@
 #ifndef CALENDARLAYOUT_HPP
 #define CALENDARLAYOUT_HPP
 
+#include "rangedefinition.hpp"
 #include <array>
 
 namespace IO
 {
-
-struct Range
-{
-    int startRow;
-    int startCol;
-    int length;
-};
-
-constexpr bool operator==(Range const& lhs, Range const& rhs)
-{
-    return lhs.startRow == rhs.startRow && lhs.startCol == rhs.startCol && lhs.length == rhs.length;
-}
 
 class CalendarLayout
 {
