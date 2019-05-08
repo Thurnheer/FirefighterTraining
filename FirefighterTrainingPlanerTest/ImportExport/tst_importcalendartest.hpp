@@ -14,6 +14,7 @@ private slots:
     void getYear_Jahreskalender2019FWBAH_2019() const;
     void getDate__1_1_Neujahrsapero__cellNeujahrsapero() const;
     void getDate_FileJahresKalender2019_Zug1_1() const;
+    void calenderData_FileJahresKalender2019_Zug1_1() const;
     void getDate_FileJahresKalender2019_EmptyConcatenatedCell() const;
 };
 

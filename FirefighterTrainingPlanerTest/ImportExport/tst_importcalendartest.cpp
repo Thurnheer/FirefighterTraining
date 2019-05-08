@@ -55,6 +55,16 @@ void ImportCalendarTest::getDate_FileJahresKalender2019_Zug1_1() const
     QCOMPARE(vv, "Ferien");
 }
 
+void ImportCalendarTest::calenderData_FileJahresKalender2019_Zug1_1() const
+{
+    QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
+
+    IO::CalendarParser p(t);
+
+    const auto result = p.calendarData(30, 3);
+    QCOMPARE(result[0].text(), "Zug 1/1");
+}
+
 void ImportCalendarTest::getDate_FileJahresKalender2019_EmptyConcatenatedCell() const
 {
     QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
