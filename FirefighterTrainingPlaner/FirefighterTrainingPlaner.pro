@@ -16,13 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-INCLUDEPATH += ./../../../boost/boost_1_69_0/
+INCLUDEPATH += ./../../../boost/boost_1_72_0/
 INCLUDEPATH += ./container/
 INCLUDEPATH += ./../QXlsx/header/
 
 SOURCES += \
     ImportExport/drillparser.cpp \
     middleware/converter.cpp \
+    ImportExport/io_cell.cpp \
     middleware/event.cpp \
     middleware/IcalGenerator.cpp \
     middleware/JahreskalenderParser.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     ImportExport/drillparser.hpp \
     middleware/Names.hpp \
     middleware/converter.hpp \
+    ImportExport/io_cell.hpp \
     middleware/event.h \
     middleware/IcalGenerator.hpp \
     middleware/JahreskalenderParser.hpp \

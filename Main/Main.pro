@@ -2,7 +2,7 @@ QT += quick sql
 QTPLUGIN += qsqlite
 CONFIG += c++17
 
-INCLUDEPATH += ./../../../boost/boost_1_69_0/
+INCLUDEPATH += ./../../../boost/boost_1_72_0/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/database
 INCLUDEPATH += ./../FirefighterTrainingPlaner/ImportExport
 INCLUDEPATH += ./../FirefighterTrainingPlaner/middleware

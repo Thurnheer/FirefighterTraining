@@ -4,7 +4,7 @@ CONFIG += qt warn_on depend_includepath testcase
 CONFIG += c++17
 CONFIG += test
 
-INCLUDEPATH += ./../../../boost/boost_1_69_0/
+INCLUDEPATH += ./../../../boost/boost_1_72_0/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/database
 INCLUDEPATH += ./../FirefighterTrainingPlaner/ImportExport
 INCLUDEPATH += ./../QXlsx/header/

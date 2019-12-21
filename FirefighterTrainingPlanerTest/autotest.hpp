@@ -57,7 +57,7 @@ namespace AutoTest
 
  inline QString inputPath()
  {
-    return QString("/media/paenny/FastData/Projects/FirefighterTraining/FirefighterTraining/FirefighterTrainingPlanerTest/testData/input/");
+    return QString("/home/christoph/Projects/FireFighterTraining/FirefighterTraining/FirefighterTrainingPlanerTest/testData/input/");
  }
 }
 

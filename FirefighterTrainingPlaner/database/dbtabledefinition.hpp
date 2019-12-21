@@ -2,8 +2,8 @@
 #define DBTABLEDEFINITION_HPP
 
 #include "string"
-#include "boost/fusion/include/define_struct.hpp"
 #include "boost/fusion/include/for_each.hpp"
+#include "boost/fusion/include/define_struct.hpp"
 #include "boost/fusion/include/zip.hpp"
 #include "boost/fusion/include/transform.hpp"
 #include "boost/fusion/include/algorithm.hpp"
