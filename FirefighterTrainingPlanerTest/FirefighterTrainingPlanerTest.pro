@@ -15,6 +15,7 @@ message(Test build)
 TARGET = UnitTests
 
 SOURCES +=  tst_eventtest.cpp \
+    ImportExport/calenderparsertest.cpp \
     tst_main.cpp \
     tst_fwdrilltypedbtest.cpp \
     tst_tablecreationtest.cpp \
@@ -23,6 +24,7 @@ SOURCES +=  tst_eventtest.cpp \
     ImportExport/testeventtypeparser.cpp
 
 HEADERS += \
+    ImportExport/calenderparsertest.hpp \
     tst_eventtest.hpp \
     autotest.hpp \
     tst_fwdrilltypedbtest.hpp \

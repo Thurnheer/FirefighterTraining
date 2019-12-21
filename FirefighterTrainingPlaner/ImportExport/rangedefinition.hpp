@@ -3,6 +3,12 @@
 
 namespace IO {
 
+struct Cell
+{
+    int row;
+    int column;
+};
+
 struct Range
 {
     int startRow;

@@ -4,6 +4,7 @@
 #include "xlsxcellrange.h"
 #include "calendarparser.hpp"
 #include <QVariant>
+#include "../middleware/Names.hpp"
 
 ImportCalendarTest::ImportCalendarTest()
 {
@@ -19,7 +20,7 @@ void ImportCalendarTest::getDate__1_1_Neujahrsapero__cellNeujahrsapero() const
     testDoc.write("B3", "Di");
     testDoc.write("C3", QVariant(EVENT.c_str()));
 
-    IO::CalendarParser parser(testDoc);
+    IO::CalendarParser parser(testDoc, times);
 
     QDate date(2019, 1, 1);
     std::vector<QXlsx::Cell const*> const RESULT = parser.cellsFromDate(date);
@@ -33,7 +34,7 @@ void ImportCalendarTest::getYear_Jahreskalender2019FWBAH_2019() const
     QXlsx::Document testDoc;
     testDoc.write("A1", "Jahreskalender 2019 FW B-A-H");
 
-    IO::CalendarParser parser(testDoc);
+    IO::CalendarParser parser(testDoc, times);
 
     QCOMPARE(parser.getYear(), 2019);
 }
@@ -42,7 +43,7 @@ void ImportCalendarTest::getDate_FileJahresKalender2019_Zug1_1() const
 {
     QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
 
-    IO::CalendarParser p(t);
+    IO::CalendarParser p(t, times);
     const int year = p.getYear();
     QCOMPARE(2019, year);
     QDate date(year, 1, 28);
@@ -59,7 +60,7 @@ void ImportCalendarTest::getDate_FileJahresKalender2019_EmptyConcatenatedCell() 
 {
     QXlsx::Document t(QString(AutoTest::inputPath() + "Jahreskalender 2019.xlsx"));
 
-    IO::CalendarParser p(t);
+    IO::CalendarParser p(t, times);
     const int year = p.getYear();
     QCOMPARE(2019, year);
     QDate date(year, 1, 29);

@@ -21,6 +21,8 @@ INCLUDEPATH += ./container/
 INCLUDEPATH += ./../QXlsx/header/
 
 SOURCES += \
+    ImportExport/drillparser.cpp \
+    middleware/converter.cpp \
     middleware/event.cpp \
     middleware/IcalGenerator.cpp \
     middleware/JahreskalenderParser.cpp \
@@ -42,6 +44,9 @@ SOURCES += \
     ImportExport/eventdescriptionlayout.cpp
 
 HEADERS += \
+    ImportExport/drillparser.hpp \
+    middleware/Names.hpp \
+    middleware/converter.hpp \
     middleware/event.h \
     middleware/IcalGenerator.hpp \
     middleware/JahreskalenderParser.hpp \

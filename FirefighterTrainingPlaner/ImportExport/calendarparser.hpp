@@ -4,8 +4,13 @@
 #include "pipe.hpp"
 #include "xlsxcell.h"
 #include "xlsxcellrange.h"
+#include "QDate"
 #include <vector>
 #include <array>
+#include "../middleware/event.h"
+#include "../middleware/SqlTableNames.hpp"
+#include "QUuid"
+#include "QRegularExpression"
 
 namespace QXlsx {
     class Document;
@@ -16,18 +21,55 @@ namespace QXlsx {
 namespace IO
 {
 
+struct RawEvent
+{
+    QString     name;
+    QColor      charColor;
+    int         cellColor;
+    QDate       date;
+    QUuid       uuid;
+    QString     location;
+    QString     description;
+    QTime       startTime;
+    QTime       endTime;
+    int         eventType;
+};
+
+struct EventTime
+{
+    QVector<QRegularExpression>  regex;
+    QTime               starttime;
+    QTime               endtime;
+};
+
+static const IO::RawEvent ENDEVENT{"EndEvent", QColor(), 0, QDate(2000, 1, 1), QUuid(), "", "", QTime(), QTime(), SqlTableNames::eUnknown};
+
 class CalendarParser
 {
 public:
-    CalendarParser(QXlsx::Document const& document);
+    CalendarParser(QXlsx::Document const& document, const QVector<IO::EventTime>& eventtimes);
     int getYear() const;
 
-    void pumpAllEvents(pipe<QXlsx::Cell const*>& out);
+    void pumpAllEvents(QVector<QRegularExpression> namesToFind, pipe<RawEvent>& out);
     std::vector<QXlsx::Cell const*> cellsFromDate(const QDate &date) const;
-    QList<QXlsx::CellRange> getCellRange() const;
+    void pumpMonth(QDate monthToParse, pipe<std::tuple<QDate, const QXlsx::Cell*> > &out) const;
+    void convert(pipe<std::tuple<QDate, const QXlsx::Cell*> > &in, pipe<RawEvent> &out) const;
+    void splitCombinedEvents(pipe<RawEvent>& in, pipe<RawEvent>& out) const;
+    void filterEmptyEvents(pipe<RawEvent>&in, pipe<RawEvent>& out) const;
+    void filterForNames(pipe<RawEvent>&in, QVector<QRegularExpression> names, pipe<RawEvent>& filterout) const;
+    void setEventType(pipe<RawEvent> &in, SqlTableNames::DivisionT division, pipe<RawEvent> &out) const;
+    void setEventTime(pipe<RawEvent> &in, QVector<EventTime> time, pipe<RawEvent> &out) const;
 
 private:
+    bool isValid(const QVector<QRegularExpression> &regex, const QString& name) const;
     QXlsx::Document const& document_;
+    const QVector<IO::EventTime>& eventtimes_;
+
+    pipe<std::tuple<QDate, QXlsx::Cell const*>> cells_;
+    pipe<IO::RawEvent> rawEvents_;
+    pipe<IO::RawEvent> eventsOnly_;
+    pipe<IO::RawEvent> singleEvents_;
+    pipe<IO::RawEvent> timedEvents_;
 };
 
 }

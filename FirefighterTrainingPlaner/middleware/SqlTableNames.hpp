@@ -24,7 +24,8 @@ public:
         eUof,
         eOff,
         eZugfuehrer,
-        eSpezialisten
+        eSpezialisten,
+        eSonstiges
     };
 
 

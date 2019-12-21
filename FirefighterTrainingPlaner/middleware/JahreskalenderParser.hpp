@@ -52,6 +52,7 @@ private:
     // indicator words
     static const QString TAG;
     static const QString BRANDHAUS;
+    void parseEvents(const QXlsx::Document &xlsx, QVector<QRegularExpression> names, SqlTableNames::DivisionT eventType);
 };
 
 #endif // JAHRESKALENDERPARSER_HPP

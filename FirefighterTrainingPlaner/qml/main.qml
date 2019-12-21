@@ -265,10 +265,17 @@ ApplicationWindow {
                             text: modelData.name
                         }
                         Label {
-                            id: timeLabel
+                            id: starttimeLabel
                             width: parent.width
                             wrapMode: Text.Wrap
                             text: modelData.startDate.toLocaleTimeString(calendar.locale, Locale.ShortFormat)
+                            color: "#aaa"
+                        }
+                        Label {
+                            id: endtimeLabel
+                            width: parent.width
+                            wrapMode: Text.Wrap
+                            text: modelData.endDate.toLocaleTimeString(calendar.locale, Locale.ShortFormat)
                             color: "#aaa"
                         }
                     }
