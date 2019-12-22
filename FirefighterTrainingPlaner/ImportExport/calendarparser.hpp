@@ -23,10 +23,12 @@ namespace IO
 
 struct RawEvent
 {
-    QString     name;
+    QString     name_;
+    QString     name() const {return name_; }
     QColor      charColor;
     int         cellColor;
-    QDate       date;
+    QDate       date_;
+    QDate       date() const { return date_; }
     QUuid       uuid;
     QString     location;
     QString     description;
@@ -61,7 +63,6 @@ public:
     void setEventTime(pipe<RawEvent> &in, QVector<EventTime> time, pipe<RawEvent> &out) const;
 
 private:
-    bool isValid(const QVector<QRegularExpression> &regex, const QString& name) const;
     QXlsx::Document const& document_;
     const QVector<IO::EventTime>& eventtimes_;
 

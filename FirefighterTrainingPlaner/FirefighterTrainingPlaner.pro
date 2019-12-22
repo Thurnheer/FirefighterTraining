@@ -45,6 +45,7 @@ SOURCES += \
     ImportExport/eventdescriptionlayout.cpp
 
 HEADERS += \
+    ImportExport/RegexFilter.hpp \
     ImportExport/drillparser.hpp \
     middleware/Names.hpp \
     middleware/converter.hpp \

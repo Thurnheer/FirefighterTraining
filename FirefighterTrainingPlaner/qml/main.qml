@@ -98,7 +98,7 @@ ApplicationWindow {
         selectExisting: false
         nameFilters: ["Digitaler Kalender (*.ics)", "Excel Dateien (*.xlsx)", "Pdf Format (*.pdf)"]
         onAccepted: {
-            icalGenerator.generateCalendar(exportDialog.fileUrl)
+            icalGenerator.generateCalendars(exportDialog.fileUrl)
         }
         onRejected: {
             console.log("Export Canceled")

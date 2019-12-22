@@ -71,6 +71,8 @@ public:
     QDateTime endDate() const;
     void setEndDate(const QDateTime &endDate);
 
+    QDate date() const { return startDate().date(); }
+
     int eventType() const;
     void setEventType(int eventType);
 

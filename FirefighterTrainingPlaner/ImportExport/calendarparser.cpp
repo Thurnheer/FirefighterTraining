@@ -2,6 +2,7 @@
 #include "xlsxdocument.h"
 #include "calendarlayout.hpp"
 #include <tuple>
+#include "RegexFilter.hpp"
 
 constexpr std::array<IO::Range, IO::CalendarLayout::NUMMONTH> IO::CalendarLayout::months; // declaration for external linkage
 constexpr IO::Range IO::CalendarLayout::EVENT; // declaration for external linkage
@@ -28,7 +29,7 @@ void IO::CalendarParser::pumpAllEvents(QVector<QRegularExpression> namesToFind, 
         QDate d(getYear(), i, 1);
         pumpMonth(d, cells_);
     }
-    cells_ << std::make_tuple(IO::ENDEVENT.date, nullptr);
+    cells_ << std::make_tuple(IO::ENDEVENT.date(), nullptr);
     convert(cells_, rawEvents_);
     filterEmptyEvents(rawEvents_, eventsOnly_);
     splitCombinedEvents(eventsOnly_, singleEvents_);
@@ -69,16 +70,16 @@ void IO::CalendarParser::convert(pipe<std::tuple<QDate, const QXlsx::Cell *> > &
     std::tuple<QDate, const QXlsx::Cell*> data;
     do {
         in >> data;
-        event.date = std::get<0>(data);
+        event.date_ = std::get<0>(data);
         const QXlsx::Cell* cell = std::get<1>(data);
         if(cell) {
-            event.name = cell->value().toString();
+            event.name_ = cell->value().toString().trimmed();
             event.cellColor = cell->format().fillIndex();
             event.charColor = cell->format().fontColor();
             event.uuid = QUuid::createUuid();
             out << event;
         }
-    } while(std::get<0>(data) > ENDEVENT.date);
+    } while(std::get<0>(data) > ENDEVENT.date_);
     out << ENDEVENT;
 }
 
@@ -87,14 +88,14 @@ void IO::CalendarParser::splitCombinedEvents(pipe<IO::RawEvent> &in, pipe<IO::Ra
     RawEvent event;
     do {
         in >> event;
-        QStringList names = event.name.split("//", QString::SkipEmptyParts);
+        QStringList names = event.name_.split("//", QString::SkipEmptyParts);
         for(auto i : names)
         {
             RawEvent splitedEvent = event;
-            splitedEvent.name = i;
+            splitedEvent.name_ = i.trimmed();
             out << splitedEvent;
         }
-    } while(event.date > ENDEVENT.date);
+    } while(event.date_ > ENDEVENT.date_);
 }
 
 void IO::CalendarParser::filterEmptyEvents(pipe<IO::RawEvent> &in, pipe<IO::RawEvent> &out) const
@@ -102,22 +103,15 @@ void IO::CalendarParser::filterEmptyEvents(pipe<IO::RawEvent> &in, pipe<IO::RawE
     RawEvent event;
     do {
         in >> event;
-        if(!event.name.isEmpty()) {
+        if(!event.name_.isEmpty()) {
             out << event;
         }
-    } while (event.date > ENDEVENT.date);
+    } while (event.date_ > ENDEVENT.date_);
 }
 
 void IO::CalendarParser::filterForNames(pipe<IO::RawEvent> &in, QVector<QRegularExpression> names, pipe<IO::RawEvent> &filterout) const
 {
-    RawEvent event;
-    do {
-        in >> event;
-        if(isValid(names, event.name))
-        {
-            filterout << event;
-        }
-    } while (event.date > ENDEVENT.date);
+    regex::filterForNames(in, names, filterout);
     filterout << ENDEVENT;
 }
 
@@ -128,7 +122,7 @@ void IO::CalendarParser::setEventType(pipe<RawEvent> &in, SqlTableNames::Divisio
         in >> event;
         event.eventType = division;
         out << event;
-    } while (event.date > ENDEVENT.date);
+    } while (event.date_ > ENDEVENT.date_);
 }
 
 void IO::CalendarParser::setEventTime(pipe<IO::RawEvent> &in, QVector<IO::EventTime> time, pipe<IO::RawEvent> &out) const
@@ -138,7 +132,7 @@ void IO::CalendarParser::setEventTime(pipe<IO::RawEvent> &in, QVector<IO::EventT
         in >> event;
         for(auto j : time) {
             for(auto i : j.regex) {
-                if(i.match(event.name).hasMatch())
+                if(i.match(event.name_).hasMatch())
                 {
                     event.startTime = j.starttime;
                     event.endTime = j.endtime;
@@ -147,15 +141,5 @@ void IO::CalendarParser::setEventTime(pipe<IO::RawEvent> &in, QVector<IO::EventT
             }
         }
         out << event;
-    } while (event.date > ENDEVENT.date);
-}
-
-bool IO::CalendarParser::isValid(const QVector<QRegularExpression> &regex, const QString &name) const
-{
-    for(auto r : regex) {
-        if(r.match(name).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
+    } while (event.date_ > ENDEVENT.date_);
 }

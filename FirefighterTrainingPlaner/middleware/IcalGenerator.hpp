@@ -9,26 +9,29 @@
 #include "event.h"
 #include "SqlTableNames.hpp"
 #include "uebungskartegenerator.hpp"
+#include "pipe.hpp"
 
 class IcalGenerator : public QObject
 {
     Q_OBJECT
 public:
-    explicit IcalGenerator(QObject *parent = 0);
+    explicit IcalGenerator(QObject *parent = nullptr);
     ~IcalGenerator();
 
-    Q_INVOKABLE void generateCalendar(const QUrl& path);
+    Q_INVOKABLE void generateCalendars(const QUrl& path);
 
 
 private:
 
-    void generateAllCalendars(const QString& name);
-    void generateAllCalendars(QString fileName, SqlTableNames::DivisionT division, const QString& index = "", const QString& additionSearchTag = "");
+    void generateCalendar(const QString& filePath, const QString &filename, const QVector<QRegularExpression> &regex, const QList<Event *> events);
     void writeCalendar(QString fileName, const QList<Event *> &event);
     void writeHeader(QTextStream& stream);
     void writeEvent(QTextStream& stream, const QList<Event *> &event);
     void writeEvent(QTextStream& stream, const Event &event);
     void writeFooter(QTextStream& stream);
+
+
+    void convert(QList<Event*>const& events, pipe<Event *> &out) const;
 
     EventDataBase m_database;
     UebungsKarteGenerator m_ubungskarte;
@@ -61,6 +64,8 @@ private:
     const static QString UID;
     const static QString DESCRIPTION;
 
+    void convert(pipe<Event *> &in, QList<Event *> &events) const;
+    QString generateFileName(const QString& filepath, const QString &filename);
 };
 
 #endif // ICALGENERATOR_HPP

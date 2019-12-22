@@ -4,6 +4,9 @@
 #include "QDate"
 #include "QSqlQuery"
 #include "QDebug"
+#include "pipe.hpp"
+#include "ImportExport/RegexFilter.hpp"
+#include "Names.hpp"
 
 const QString IcalGenerator::ENDING(".ics");
 
@@ -46,7 +49,7 @@ IcalGenerator::~IcalGenerator()
 
 //------------------------------------------------------------------------------------------------
 //
-void IcalGenerator::generateCalendar(const QUrl &path)
+void IcalGenerator::generateCalendars(const QUrl &path)
 {
     QString ending(path.toLocalFile());
     if(ending.isEmpty())
@@ -66,45 +69,55 @@ void IcalGenerator::generateCalendar(const QUrl &path)
     QString allEvents(ending);
     allEvents.insert(ending.lastIndexOf("."), "_alleTermine");
     writeCalendar(allEvents, events);
+
+    generateCalendar(ending, "Zug 1.ics", exerciseZug1, events);
+    generateCalendar(ending, "Zug 2.ics", exerciseZug2, events);
+    generateCalendar(ending, "Zug 3.ics", exerciseZug3, events);
+    generateCalendar(ending, "Masch A.ics", exerciseMaschA, events);
+    generateCalendar(ending, "Masch B.ics", exerciseMaschB, events);
+    generateCalendar(ending, "Masch C.ics", exerciseMaschC, events);
+    generateCalendar(ending, "AS A.ics", exerciseAsA, events);
+    generateCalendar(ending, "AS B.ics", exerciseASB, events);
+    generateCalendar(ending, "AS C.ics", exerciseAsC, events);
+    generateCalendar(ending, "Kommando Zug.ics", exerciseKommandoZug, events);
+    generateCalendar(ending, "Absturz.ics", exerciseAbsturz, events);
+    generateCalendar(ending, "Piketzug.ics", exercisePiketzug, events);
+    generateCalendar(ending, "Uof.ics", exerciseUof, events);
+    generateCalendar(ending, "Off.ics", exerciseOff, events);
+    generateCalendar(ending, "Zugfuehrer.ics", exerciseZugfuehrer, events);
+    generateCalendar(ending, "Spezialisten.ics", exerciseSpezialisten, events);
+    generateCalendar(ending, "Sonstige.ics", sonstiges, events);
+
     qDeleteAll(events);
 
-    generateAllCalendars(ending);
-
 }
 
 //------------------------------------------------------------------------------------------------
 //
-void IcalGenerator::generateAllCalendars(const QString& fileName)
+QString IcalGenerator::generateFileName(const QString& filepath, const QString& filename)
 {
-    generateAllCalendars(fileName, SqlTableNames::eZug, " 1", "Hauptübung");
-    generateAllCalendars(fileName, SqlTableNames::eZug, " 2", "Hauptübung");
-    generateAllCalendars(fileName, SqlTableNames::eZug, " 3", "Hauptübung");
-    generateAllCalendars(fileName, SqlTableNames::eMaschinistenHRB, " A", "Fahrertag");
-    generateAllCalendars(fileName, SqlTableNames::eMaschinistenHRB, " B", "Fahrertag");
-    generateAllCalendars(fileName, SqlTableNames::eMaschinistenHRB, " C", "Fahrertag");
-    generateAllCalendars(fileName, SqlTableNames::eAtemschutz, " A", "Atemschutztag");
-    generateAllCalendars(fileName, SqlTableNames::eAtemschutz, " B", "Atemschutztag");
-    generateAllCalendars(fileName, SqlTableNames::eAtemschutz, " C", "Atemschutztag");
-    generateAllCalendars(fileName, SqlTableNames::eKommandoZug, "", "Hauptübung");
-    generateAllCalendars(fileName, SqlTableNames::ePikettzug);
-    generateAllCalendars(fileName, SqlTableNames::eAbsturzsicherung);
-    generateAllCalendars(fileName, SqlTableNames::eKader);
-    generateAllCalendars(fileName, SqlTableNames::eUof);
-    generateAllCalendars(fileName, SqlTableNames::eOff);
-    generateAllCalendars(fileName, SqlTableNames::eZugfuehrer);
-    generateAllCalendars(fileName, SqlTableNames::eSpezialisten);
-
-    m_ubungskarte.generateUebungskarte(fileName);
+    QString file(filepath.begin(), filepath.lastIndexOf("."));
+    file += filename;
+    return file;
 }
 
-//------------------------------------------------------------------------------------------------
-//
-void IcalGenerator::generateAllCalendars(QString fileName, SqlTableNames::DivisionT division, const QString &index, const QString &additionSearchTag)
+void IcalGenerator::generateCalendar(const QString& filePath, const QString& filename, const QVector<QRegularExpression>& regex, QList<Event*>const events)
 {
-    QList<Event*> event = m_database.getEvents(division, index, additionSearchTag);
-    fileName.insert(fileName.lastIndexOf("."), "_" + m_database.getTableName(division) + index);
-    writeCalendar(fileName, event);
-    qDeleteAll(event);
+    pipe<Event*> out;
+    pipe<Event*> list;
+    convert(events, out);
+    Event* e = new Event();
+    e->setStartDate(QDateTime(regex::STOPDATE));
+    out << e;
+    regex::filterForNames(out, regex, list);
+    list << e;
+    QList<Event*> cal;
+    convert(list, cal);
+    writeCalendar(generateFileName(filePath, filename), cal);
+
+    delete e;
+
+    m_ubungskarte.generateUebungskarte(filePath);
 }
 
 //------------------------------------------------------------------------------------------------
@@ -136,10 +149,9 @@ void IcalGenerator::writeHeader(QTextStream& stream)
 //
 void IcalGenerator::writeEvent(QTextStream &stream, const QList<Event*> &event)
 {
-    QList<Event*>::const_iterator it = event.begin();
-    for(;it != event.end();++it)
+    for(auto i : event)
     {
-        writeEvent(stream, **it);
+        writeEvent(stream, *i);
     }
 }
 
@@ -187,5 +199,24 @@ void IcalGenerator::writeEvent(QTextStream &stream, const Event& event)
 void IcalGenerator::writeFooter(QTextStream &stream)
 {
     stream << ENDCALENDAR;
+}
+
+void IcalGenerator::convert(const QList<Event *> &events, pipe<Event*> &out) const
+{
+    for(auto i : events)
+    {
+        out << i;
+    }
+}
+
+void IcalGenerator::convert(pipe<Event*> &in, QList<Event *>& events) const
+{
+    Event* event;
+    do {
+        in >> event;
+        if(event->date() > regex::STOPDATE) {
+            events << event;
+        }
+    } while (event->date() > regex::STOPDATE);
 }
 
