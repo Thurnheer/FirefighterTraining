@@ -97,12 +97,15 @@ void IO::CalendarParser::filterForNames(pipe<IO::RawEvent> &in, QVector<QRegular
     filterout << ENDEVENT;
 }
 
-void IO::CalendarParser::setEventType(pipe<RawEvent> &in, SqlTableNames::DivisionT division, pipe<RawEvent> &out) const
+void IO::CalendarParser::setDrillNumber(pipe<RawEvent> &in, pipe<RawEvent> &out) const
 {
     RawEvent event;
     do {
         in >> event;
-        event.eventType = division;
+        auto i = event.name().lastIndexOf(QRegExp("\\d"));
+        if(i > 0) {
+                event.drillNumber = QString(event.name()[i]).toInt();
+        }
         out << event;
     } while (event.date_ > ENDEVENT.date_);
 }

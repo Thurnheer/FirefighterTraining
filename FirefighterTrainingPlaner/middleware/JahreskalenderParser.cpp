@@ -20,7 +20,6 @@
 //
 JahreskalenderParser::JahreskalenderParser(QObject *parent)
 : QObject(parent)
-, m_currentDivision(SqlTableNames::eZug)
 {
 }
 
@@ -63,7 +62,7 @@ void JahreskalenderParser::importDrills(const QXlsx::Document &xlsx)
         QString description = xlsx.read(j, 3).toString();
         if(!name.isEmpty() && (category.isEmpty() || category.contains(QRegExp("( +)"))))
         {
-            generateDrillTable(name);
+           // generateDrillTable(name);
         }
         else if(!name.isEmpty() && !category.isEmpty())
         {
@@ -92,52 +91,6 @@ QStringList JahreskalenderParser::getCompositedDrills(const QString &name)
 
 //------------------------------------------------------------------------------------------------
 //
-void JahreskalenderParser::generateDrillTable(const QString &tablename)
-{
-    QSqlQuery query;
-    if(tablename.startsWith(SqlTableNames::ZUG, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::eZug;
-        QString queryStr(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::ZUG));
-        if (!query.exec(queryStr))
-        {
-            qDebug() << query.lastError();
-        }
-    }
-    else if(tablename.contains(SqlTableNames::MASCHINISTEN, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::eMaschinistenHRB;
-        query.exec(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::MASCHINISTEN));
-    }
-    else if(tablename.contains(SqlTableNames::ATEMSCHUTZ, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::eAtemschutz;
-        query.exec(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::ATEMSCHUTZ));
-    }
-    else if(tablename.contains(SqlTableNames::KOMMANDOZUG, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::eKommandoZug;
-        query.exec(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::KOMMANDOZUG));
-    }
-    else if(tablename.contains(SqlTableNames::PIKETTZUG, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::ePikettzug;
-        query.exec(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::PIKETTZUG));
-    }
-    else if(tablename.contains(SqlTableNames::ABSTURZ, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::eAbsturzsicherung;
-        query.exec(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::ABSTURZ));
-    }
-    else if(tablename.contains(SqlTableNames::KADER, Qt::CaseInsensitive))
-    {
-        m_currentDivision = SqlTableNames::eKader;
-        query.exec(QString::fromLatin1("create table %1 (number INT, category TEXT, teacher TEXT, description TEXT)").arg(SqlTableNames::KADER));
-    }
-}
-
-//------------------------------------------------------------------------------------------------
-//
 void JahreskalenderParser::parseDrill(int number, const QString& category, const QString& drillDescription)
 {
     QSqlQuery query;
@@ -148,7 +101,7 @@ void JahreskalenderParser::parseDrill(int number, const QString& category, const
     {
         teacher = " ";
     }
-    if(!m_tableNames.m_tableNames[m_currentDivision].isEmpty())
+/*    if(!m_tableNames.m_tableNames[m_currentDivision].isEmpty())
     {
 
         QString queryString(QString::fromLatin1("insert into %1 values('%2', '%3', '%4', '%5')").arg(m_tableNames.m_tableNames[m_currentDivision], QString::number(number),
@@ -157,5 +110,5 @@ void JahreskalenderParser::parseDrill(int number, const QString& category, const
         {
             qDebug() << query.lastError();
         }
-    }
+    }*/
 }

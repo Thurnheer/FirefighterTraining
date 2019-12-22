@@ -27,12 +27,7 @@ private:
 
     void importDrills(const QXlsx::Document& xlsx);
     void parseDrill(int number, const QString &category, const QString &drillDescription);
-    void generateDrillTable(const QString& tablename);
     QStringList getCompositedDrills(const QString& name);
-
-    SqlTableNames::DivisionT     m_currentDivision;
-    SqlTableNames m_tableNames;
-
 
     // indicator words
     void parseEvents(const QXlsx::Document &xlsx, QVector<QRegularExpression> names);

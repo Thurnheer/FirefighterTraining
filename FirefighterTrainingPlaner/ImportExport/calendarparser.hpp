@@ -34,7 +34,7 @@ struct RawEvent
     QString     description;
     QTime       startTime;
     QTime       endTime;
-    int         eventType;
+    int         drillNumber;
 };
 
 struct EventTime
@@ -44,7 +44,7 @@ struct EventTime
     QTime               endtime;
 };
 
-static const IO::RawEvent ENDEVENT{"EndEvent", QColor(), 0, QDate(2000, 1, 1), QUuid(), "", "", QTime(), QTime(), SqlTableNames::eUnknown};
+static const IO::RawEvent ENDEVENT{"EndEvent", QColor(), 0, QDate(2000, 1, 1), QUuid(), "", "", QTime(), QTime(), -1};
 
 class CalendarParser
 {
@@ -58,7 +58,7 @@ public:
     void splitCombinedEvents(pipe<RawEvent>& in, pipe<RawEvent>& out) const;
     void filterEmptyEvents(pipe<RawEvent>&in, pipe<RawEvent>& out) const;
     void filterForNames(pipe<RawEvent>&in, QVector<QRegularExpression> names, pipe<RawEvent>& filterout) const;
-    void setEventType(pipe<RawEvent> &in, SqlTableNames::DivisionT division, pipe<RawEvent> &out) const;
+    void setDrillNumber(pipe<RawEvent> &in, pipe<RawEvent> &out) const;
     void setEventTime(pipe<RawEvent> &in, QVector<EventTime> time, pipe<RawEvent> &out) const;
 
 private:

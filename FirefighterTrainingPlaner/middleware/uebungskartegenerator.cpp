@@ -9,7 +9,7 @@ UebungsKarteGenerator::UebungsKarteGenerator()
 {
 }
 
-void UebungsKarteGenerator::generateUebungskarte(const QString &path)
+/*void UebungsKarteGenerator::generateUebungskarte(const QString &path)
 {
     QString filename(path);
     filename.truncate(filename.lastIndexOf("."));
@@ -33,7 +33,7 @@ void UebungsKarteGenerator::generateUebungskarte(const QString &path)
         uebungsKarte.write(index, 1, date.toString("dd/MM/yyyy"));
         uebungsKarte.write(index, 2, time.toString("hh.mm"));
         int col = 20;
-        switch(event->eventType())
+        switch(event->drillNumber())
         {
         case SqlTableNames::eZug:
         {
@@ -115,4 +115,4 @@ void UebungsKarteGenerator::generateUebungskarte(const QString &path)
 
     uebungsKarte.saveAs(filename);
 
-}
+}*/

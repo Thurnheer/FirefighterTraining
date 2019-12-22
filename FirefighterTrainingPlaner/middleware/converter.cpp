@@ -9,7 +9,7 @@ void convert(pipe<IO::RawEvent>& in) {
             Event qtEvent;
             qtEvent.setName(event.name());
             qtEvent.setUuid(event.uuid.toString());
-            qtEvent.setEventType(event.eventType);
+            qtEvent.setDrillNumber(event.drillNumber);
             QDateTime starttime; starttime.setDate(event.date()); starttime.setTime(event.startTime);
             QDateTime endtime; endtime.setDate(event.date()); endtime.setTime(event.endTime);
             qtEvent.setStartDate(starttime);

@@ -83,37 +83,6 @@ QList<QObject*> SqlEventModel::eventsForDate(const QDate &date)
     return events;
 }
 
-//------------------------------------------------------------------------------------------------
-//
-QList<QObject*> SqlEventModel::eventsForEinteilung(int einteilung)
-{
-    const QString queryStr = QString::fromLatin1("SELECT * FROM Event WHERE '%1' == einteilung").arg(einteilung);
-    QSqlQuery query(queryStr);
-    if (!query.exec())
-        qFatal("Query failed");
-
-    QList<QObject*> events;
-    while (query.next()) {
-        Event *event = new Event(this);
-        event->setName(query.value("name").toString());
-        event->setEventType(query.value("einteilung").toInt());
-
-        QDateTime startDate;
-        startDate.setDate(query.value("startDate").toDate());
-        startDate.setTime(QTime(0, 0).addSecs(query.value("startTime").toInt()));
-        event->setStartDate(startDate);
-
-        QDateTime endDate;
-        endDate.setDate(query.value("endDate").toDate());
-        endDate.setTime(QTime(0, 0).addSecs(query.value("endTime").toInt()));
-        event->setEndDate(endDate);
-
-        events.append(event);
-    }
-
-    return events;
-}
-
 /*
     Defines a helper function to open a connection to an
     in-memory SQLITE database and to create a test table.
@@ -128,7 +97,7 @@ void SqlEventModel::createConnection()
 
     QSqlQuery query;
     // We store the time as seconds because it's easier to query.
-    query.exec("create table Event (name TEXT, einteilung INT, einteilungsindex TEXT, uebungsnr INT, startDate DATE, startTime INT, endDate DATE, endTime INT, uuid TEXT)");
+    query.exec("create table Event (name TEXT, uebungsnr INT, startDate DATE, startTime INT, endDate DATE, endTime INT, uuid TEXT)");
 
     return;
 }

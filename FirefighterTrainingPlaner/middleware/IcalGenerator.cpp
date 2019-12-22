@@ -116,8 +116,6 @@ void IcalGenerator::generateCalendar(const QString& filePath, const QString& fil
     writeCalendar(generateFileName(filePath, filename), cal);
 
     delete e;
-
-    m_ubungskarte.generateUebungskarte(filePath);
 }
 
 //------------------------------------------------------------------------------------------------

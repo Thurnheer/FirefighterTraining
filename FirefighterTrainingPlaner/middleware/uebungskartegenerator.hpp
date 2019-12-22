@@ -10,7 +10,7 @@ class UebungsKarteGenerator
 public:
     UebungsKarteGenerator();
 
-    void generateUebungskarte(const QString &path);
+    //void generateUebungskarte(const QString &path);
 
 private:
     EventDataBase   m_database;

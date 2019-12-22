@@ -52,7 +52,7 @@ class Event : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QDateTime startDate READ startDate WRITE setStartDate NOTIFY startDateChanged)
     Q_PROPERTY(QDateTime endDate READ endDate WRITE setEndDate NOTIFY endDateChanged)
-    Q_PROPERTY(int EventType READ eventType WRITE setEventType NOTIFY eventTypeChanged)
+    Q_PROPERTY(int EventType READ drillNumber WRITE setDrillNumber NOTIFY eventTypeChanged)
     Q_PROPERTY(QString location READ location WRITE setLocation NOTIFY locationChanged)
     Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
 public:
@@ -73,8 +73,8 @@ public:
 
     QDate date() const { return startDate().date(); }
 
-    int eventType() const;
-    void setEventType(int eventType);
+    int drillNumber() const;
+    void setDrillNumber(int drillNumber);
 
     QString location() const;
     void setLocation(const QString& location);
@@ -88,7 +88,7 @@ signals:
     void nameChanged(const QString &name);
     void startDateChanged(const QDateTime &startDate);
     void endDateChanged(const QDateTime &endDate);
-    void eventTypeChanged(int eventType);
+    void eventTypeChanged(int drillNumber);
     void locationChanged(const QString& location);
     void descriptionChanged(const QString& location);
 
@@ -100,7 +100,7 @@ private:
     QString m_description;
     QDateTime mStartDate;
     QDateTime mEndDate;
-    int m_eventType;
+    int m_drillNumber;
 };
 
 #endif

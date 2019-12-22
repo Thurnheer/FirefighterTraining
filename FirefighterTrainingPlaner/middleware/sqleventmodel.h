@@ -56,8 +56,6 @@ public:
 
     Q_INVOKABLE QList<QObject*> eventsForDate(const QDate &date);
 
-    Q_INVOKABLE QList<QObject*> eventsForEinteilung(int einteilung);
-
 private:
     static void createConnection();
 };

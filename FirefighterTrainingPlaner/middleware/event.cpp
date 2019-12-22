@@ -137,16 +137,16 @@ void Event::setStartDate(const QDateTime &startDate)
 
 //------------------------------------------------------------------------------------------------
 //
-int Event::eventType() const
+int Event::drillNumber() const
 {
-    return m_eventType;
+    return m_drillNumber;
 }
 
 //------------------------------------------------------------------------------------------------
 //
-void Event::setEventType(int eventType)
+void Event::setDrillNumber(int eventType)
 {
-    m_eventType = eventType;
+    m_drillNumber = eventType;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -188,12 +188,9 @@ void Event::save()
     // TODO use update to update database instead of insert
     QSqlQuery query;
     QString einteilungsIndex = "";
-    int uebungsNr = 0;
-    getIndexAndNr(mName, einteilungsIndex, uebungsNr);
     // We store the time as seconds because it's easier to query.
-    query.exec(QString::fromLatin1("insert into Event values('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9')").arg(mName, QString::number(m_eventType),
-                                                                    einteilungsIndex,
-                                                                    QString::number(uebungsNr),
+    query.exec(QString::fromLatin1("insert into Event values('%1', '%2', '%3', '%4', '%5', '%6', '%7')").arg(mName,
+                                                                    QString::number(m_drillNumber),
                                                                     mStartDate.date().toString("yyyy-MM-dd"),
                                                                     QString::number(mStartDate.time().msecsSinceStartOfDay()/1000),
                                                                     mEndDate.date().toString("yyyy-MM-dd"),
