@@ -35,7 +35,7 @@ private:
 
 
     // indicator words
-    void parseEvents(const QXlsx::Document &xlsx, QVector<QRegularExpression> names, SqlTableNames::DivisionT eventType);
+    void parseEvents(const QXlsx::Document &xlsx, QVector<QRegularExpression> names);
 };
 
 #endif // JAHRESKALENDERPARSER_HPP
