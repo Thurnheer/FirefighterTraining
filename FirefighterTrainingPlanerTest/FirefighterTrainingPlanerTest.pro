@@ -20,7 +20,6 @@ SOURCES +=  tst_eventtest.cpp \
     tst_fwdrilltypedbtest.cpp \
     tst_tablecreationtest.cpp \
     ImportExport/tst_importcalendartest.cpp \
-    ImportExport/testcalendarlayout.cpp \
     ImportExport/testeventtypeparser.cpp
 
 HEADERS += \
@@ -31,7 +30,6 @@ HEADERS += \
     tst_tablecreationtest.hpp \
     ImportExport/tst_importcalendartest.hpp \
     container/channel.hpp \
-    ImportExport/testcalendarlayout.hpp \
     ImportExport/testeventtypeparser.hpp
 
 

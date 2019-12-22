@@ -23,24 +23,14 @@ INCLUDEPATH += ./../QXlsx/header/
 SOURCES += \
     ImportExport/drillparser.cpp \
     middleware/converter.cpp \
-    ImportExport/io_cell.cpp \
     middleware/event.cpp \
     middleware/IcalGenerator.cpp \
     middleware/JahreskalenderParser.cpp \
-    middleware/main.cpp \
     middleware/sqleventmodel.cpp \
     middleware/SqlTableNames.cpp \
     middleware/uebungskartegenerator.cpp \
-    middleware/adf.cpp \
-    middleware/fwunit.cpp \
-    middleware/drilltype.cpp \
-    middleware/firebrigade.cpp \
-    middleware/init.cpp \
-    database/fwUnitDb.cpp \
-    database/fwdrilltypeDb.cpp \
     database/dbconnectioninterface.cpp \
     ImportExport/calendarparser.cpp \
-    ImportExport/cellfilters.cpp \
     ImportExport/eventtypeparser.cpp \
     ImportExport/eventdescriptionlayout.cpp
 
@@ -49,25 +39,15 @@ HEADERS += \
     ImportExport/drillparser.hpp \
     middleware/Names.hpp \
     middleware/converter.hpp \
-    ImportExport/io_cell.hpp \
     middleware/event.h \
     middleware/IcalGenerator.hpp \
     middleware/JahreskalenderParser.hpp \
     middleware/sqleventmodel.h \
     middleware/SqlTableNames.hpp \
     middleware/uebungskartegenerator.hpp \
-    middleware/adf.hpp \
-    middleware/firefighter.hpp \
-    middleware/fwunit.hpp \
-    middleware/drilltype.hpp \
-    middleware/firebrigade.hpp \
-    middleware/init.hpp \
-    database/fwUnitDb.hpp \
-    database/fwdrilltypeDb.hpp \
     database/dbconnectioninterface.hpp \
     database/dbtabledefinition.hpp \
     ImportExport/calendarparser.hpp \
-    ImportExport/cellfilters.hpp \
     ImportExport/calendarlayout.hpp \
     ImportExport/eventtypeparser.hpp \
     ImportExport/eventdescriptionlayout.hpp \

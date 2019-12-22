@@ -4,9 +4,6 @@
 #include <tuple>
 #include "RegexFilter.hpp"
 
-constexpr std::array<IO::Range, IO::CalendarLayout::NUMMONTH> IO::CalendarLayout::months; // declaration for external linkage
-constexpr IO::Range IO::CalendarLayout::EVENT; // declaration for external linkage
-
 IO::CalendarParser::CalendarParser(const QXlsx::Document &document, const QVector<EventTime> &eventtimes)
 : document_(document)
 , eventtimes_(eventtimes)
@@ -35,21 +32,6 @@ void IO::CalendarParser::pumpAllEvents(QVector<QRegularExpression> namesToFind, 
     splitCombinedEvents(eventsOnly_, singleEvents_);
     setEventTime(singleEvents_, eventtimes_, timedEvents_);
     filterForNames(timedEvents_, namesToFind, out);
-}
-
-std::vector<QXlsx::Cell const*> IO::CalendarParser::cellsFromDate(const QDate& date) const
-{
-    std::vector<QXlsx::Cell const*> events;
-    events.reserve(2);
-    IO::Range event = IO::CalendarLayout::getMonthRange(date.day(), date.month());
-    for(int i = 0; i < event.length; i++)
-    {
-        if(QXlsx::Cell const* c = document_.cellAt(event.startRow, event.startCol + i))
-        {
-            events.push_back(c);
-        }
-    }
-    return events;
 }
 
 void IO::CalendarParser::pumpMonth(QDate monthToParse, pipe<std::tuple<QDate, const QXlsx::Cell *> > &out) const

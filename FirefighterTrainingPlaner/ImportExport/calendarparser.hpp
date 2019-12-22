@@ -53,7 +53,6 @@ public:
     int getYear() const;
 
     void pumpAllEvents(QVector<QRegularExpression> namesToFind, pipe<RawEvent>& out);
-    std::vector<QXlsx::Cell const*> cellsFromDate(const QDate &date) const;
     void pumpMonth(QDate monthToParse, pipe<std::tuple<QDate, const QXlsx::Cell*> > &out) const;
     void convert(pipe<std::tuple<QDate, const QXlsx::Cell*> > &in, pipe<RawEvent> &out) const;
     void splitCombinedEvents(pipe<RawEvent>& in, pipe<RawEvent>& out) const;
