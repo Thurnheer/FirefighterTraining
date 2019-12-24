@@ -31,14 +31,15 @@ void IO::CalendarParser::pumpAllEvents(QVector<QRegularExpression> namesToFind, 
     filterEmptyEvents(rawEvents_, eventsOnly_);
     splitCombinedEvents(eventsOnly_, singleEvents_);
     setEventTime(singleEvents_, eventtimes_, timedEvents_);
-    filterForNames(timedEvents_, namesToFind, out);
+    setDrillNumber(timedEvents_, withDrillNumber_);
+    filterForNames(withDrillNumber_, namesToFind, out);
 }
 
 void IO::CalendarParser::pumpMonth(QDate monthToParse, pipe<std::tuple<QDate, const QXlsx::Cell *> > &out) const
 {
     monthToParse.setDate(monthToParse.year(), monthToParse.month(), 1);
     QDate date(monthToParse);
-    const Cell excel = MonthBegining[monthToParse.month() - 1];
+    const Cell excel = MonthBegining[static_cast<size_t>(monthToParse.month() - 1)];
     for(int i = 0; i < monthToParse.daysInMonth(); i++)
     {
         out << std::make_tuple(date, document_.cellAt(excel.row + i, excel.column));
@@ -105,6 +106,19 @@ void IO::CalendarParser::setDrillNumber(pipe<RawEvent> &in, pipe<RawEvent> &out)
         auto i = event.name().lastIndexOf(QRegExp("\\d"));
         if(i > 0) {
                 event.drillNumber = QString(event.name()[i]).toInt();
+        }
+        out << event;
+    } while (event.date_ > ENDEVENT.date_);
+}
+
+void IO::CalendarParser::setCategory(pipe<RawEvent> &in, std::pair<QVector<QRegularExpression>, Category> category, pipe<RawEvent> &out) const
+{
+    RawEvent event;
+    do {
+        in >> event;
+        for(auto i : std::get<0>(category)) {
+            if(i.match(event.name()).hasMatch())
+                event.category = std::get<1>(category);
         }
         out << event;
     } while (event.date_ > ENDEVENT.date_);

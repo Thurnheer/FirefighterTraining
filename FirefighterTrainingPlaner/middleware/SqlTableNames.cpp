@@ -11,32 +11,8 @@
 QList<Event*> EventDataBase::getAllEvents()
 {
     QList<Event*> events;
-    query(events, QString::fromLatin1("SELECT * FROM Event ORDER by startDate"));
+    query(events, QString::fromLatin1("SELECT * FROM Event LEFT JOIN Drill ON (Event.category = Drill.category AND Event.uebungsnr = Drill.uebungsnr) ORDER by startDate"));
 
-    return events;
-}
-
-//------------------------------------------------------------------------------------------------
-//
-QList<Event*> EventDataBase::getEvents(QString index, const QString &additionSearchTag)
-{
-    QList<Event*> events;
-    QString queryStr("SELECT * FROM Event");
-    //queryStr +=  QString::number(division);
-    if(!index.isEmpty())
-    {
-        queryStr += " AND einteilungsindex = '";
-        queryStr += index.trimmed() + "'";
-    }
-    if(!additionSearchTag.isEmpty())
-    {
-        QString ast(additionSearchTag);
-        ast.insert(0,"\'%");
-        ast.append("%\'");
-        queryStr += " OR name LIKE ";
-        queryStr += ast;
-    }
-    query(events, queryStr);
     return events;
 }
 
@@ -53,9 +29,10 @@ void EventDataBase::query(QList<Event*>& events, const QString &queryString)
     while (query.next()) {
         Event *event = new Event();
         event->setName(query.value("name").toString());
+        event->setCategory(query.value("category").toInt());
+        event->setDrillNumber(query.value("uebungsnr").toInt());
         event->setUuid(query.value("uuid").toString());
-        event->setDrillNumber(query.value("einteilung").toInt());
-        getEventDescription(*event);
+        event->setDescription(query.value("description").toString());
 
         QDateTime startDate;
         startDate.setDate(query.value("startDate").toDate());

@@ -79,6 +79,13 @@ QString Event::uuid() const
 
 //------------------------------------------------------------------------------------------------
 //
+void Event::setCategory(int cat)
+{
+    m_category = cat;
+}
+
+//------------------------------------------------------------------------------------------------
+//
 void Event::setUuid(const QString& uuid)
 {
     m_uuid = uuid;
@@ -187,9 +194,9 @@ void Event::save()
 {
     // TODO use update to update database instead of insert
     QSqlQuery query;
-    QString einteilungsIndex = "";
     // We store the time as seconds because it's easier to query.
-    query.exec(QString::fromLatin1("insert into Event values('%1', '%2', '%3', '%4', '%5', '%6', '%7')").arg(mName,
+    query.exec(QString::fromLatin1("insert into Event values('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8')").arg(mName,
+                                                                    QString::number(m_category),
                                                                     QString::number(m_drillNumber),
                                                                     mStartDate.date().toString("yyyy-MM-dd"),
                                                                     QString::number(mStartDate.time().msecsSinceStartOfDay()/1000),

@@ -11,7 +11,6 @@ class EventDataBase
 {
 public:
     QList<Event*> getAllEvents();
-    QList<Event*> getEvents(QString index, const QString& additionSearchTag);
     void query(QList<Event *> &events, const QString& queryString);
     void getEventDescription(Event &event);
 

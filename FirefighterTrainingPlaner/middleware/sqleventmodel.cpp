@@ -53,6 +53,26 @@ SqlEventModel::SqlEventModel() :
     createConnection();
 }
 
+/*
+    Defines a helper function to open a connection to an
+    in-memory SQLITE database and to create a test table.
+*/
+void SqlEventModel::createConnection()
+{
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(":memory:");
+    if (!db.open()) {
+        qFatal("Cannot open database");
+    }
+
+    QSqlQuery query;
+    // We store the time as seconds because it's easier to query.
+    query.exec("create table Event (name TEXT, category INT, uebungsnr INT, startDate DATE, startTime INT, endDate DATE, endTime INT, uuid TEXT)");
+    query.exec("create table Drill (description TEXT, uebungsnr INT, category INT, teacher TEXT)");
+
+    return;
+}
+
 //------------------------------------------------------------------------------------------------
 //
 QList<QObject*> SqlEventModel::eventsForDate(const QDate &date)
@@ -83,21 +103,3 @@ QList<QObject*> SqlEventModel::eventsForDate(const QDate &date)
     return events;
 }
 
-/*
-    Defines a helper function to open a connection to an
-    in-memory SQLITE database and to create a test table.
-*/
-void SqlEventModel::createConnection()
-{
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(":memory:");
-    if (!db.open()) {
-        qFatal("Cannot open database");
-    }
-
-    QSqlQuery query;
-    // We store the time as seconds because it's easier to query.
-    query.exec("create table Event (name TEXT, uebungsnr INT, startDate DATE, startTime INT, endDate DATE, endTime INT, uuid TEXT)");
-
-    return;
-}

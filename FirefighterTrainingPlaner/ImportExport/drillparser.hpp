@@ -4,6 +4,7 @@
 #include "QVector"
 #include "QRegularExpression"
 #include "pipe.hpp"
+#include "calendarlayout.hpp"
 
 namespace QXlsx {
     class Document;
@@ -12,6 +13,7 @@ namespace QXlsx {
 struct RawDrill {
     QString teacher;
     QString description;
+    IO::Category category;
     int number;
 };
 
@@ -22,8 +24,9 @@ class DrillParser
 {
 public:
     DrillParser(QXlsx::Document &document);
-    void pumpAllDrills(QVector<QRegularExpression> namesToFind, pipe<RawDrill>& out);
+    void pumpAllDrills(pipe<RawDrill>& out) const;
 
+    void pumpDrills(std::tuple<Cell, int, IO::Category> drills, pipe<RawDrill> &out) const;
 private:
     QXlsx::Document& document_;
 };

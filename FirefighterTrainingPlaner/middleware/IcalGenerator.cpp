@@ -65,10 +65,11 @@ void IcalGenerator::generateCalendars(const QUrl &path)
         ending += ENDING;
     }
     QList<Event*> events = m_database.getAllEvents();
+
     // write all events to one calendar
-    QString allEvents(ending);
-    allEvents.insert(ending.lastIndexOf("."), "_alleTermine");
-    writeCalendar(allEvents, events);
+    QString allEventsName(ending);
+    allEventsName.insert(ending.lastIndexOf("."), "_alleTermine");
+    writeCalendar(allEventsName, events);
 
     generateCalendar(ending, "Zug 1.ics", exerciseZug1, events);
     generateCalendar(ending, "Zug 2.ics", exerciseZug2, events);

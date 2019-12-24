@@ -82,6 +82,8 @@ public:
     QString uuid() const;
     void setUuid(const QString& uuid);
 
+    void setCategory(int cat);
+
     void save();
 
 signals:
@@ -100,6 +102,7 @@ private:
     QString m_description;
     QDateTime mStartDate;
     QDateTime mEndDate;
+    int m_category;
     int m_drillNumber;
 };
 

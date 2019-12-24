@@ -9,6 +9,7 @@
 #include "xlsxdocument.h"
 #include "event.h"
 #include "SqlTableNames.hpp"
+#include "../ImportExport/calendarlayout.hpp"
 
 class JahreskalenderParser : public QObject
 {
@@ -31,6 +32,7 @@ private:
 
     // indicator words
     void parseEvents(const QXlsx::Document &xlsx, QVector<QRegularExpression> names);
+    void parseDrills(QXlsx::Document &xlsx);
 };
 
 #endif // JAHRESKALENDERPARSER_HPP
