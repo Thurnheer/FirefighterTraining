@@ -7,8 +7,8 @@
 #include "QDate"
 #include <vector>
 #include <array>
-#include "../middleware/event.h"
-#include "../middleware/SqlTableNames.hpp"
+#include "event.h"
+#include "SqlTableNames.hpp"
 #include "QUuid"
 #include "QRegularExpression"
 #include "calendarlayout.hpp"

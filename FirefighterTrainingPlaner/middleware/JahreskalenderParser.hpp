@@ -26,10 +26,6 @@ signals:
 
 private:
 
-    void importDrills(const QXlsx::Document& xlsx);
-    void parseDrill(int number, const QString &category, const QString &drillDescription);
-    QStringList getCompositedDrills(const QString& name);
-
     // indicator words
     void parseEvents(const QXlsx::Document &xlsx, QVector<QRegularExpression> names);
     void parseDrills(QXlsx::Document &xlsx);

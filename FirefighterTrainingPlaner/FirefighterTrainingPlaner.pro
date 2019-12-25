@@ -19,6 +19,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += ./../../../boost/boost_1_72_0/
 INCLUDEPATH += ./container/
 INCLUDEPATH += ./../QXlsx/header/
+INCLUDEPATH += ImportExport
+INCLUDEPATH += middleware
+INCLUDEPATH += database
 
 SOURCES += \
     ImportExport/drillparser.cpp \
@@ -30,9 +33,7 @@ SOURCES += \
     middleware/SqlTableNames.cpp \
     middleware/uebungskartegenerator.cpp \
     database/dbconnectioninterface.cpp \
-    ImportExport/calendarparser.cpp \
-    ImportExport/eventtypeparser.cpp \
-    ImportExport/eventdescriptionlayout.cpp
+    ImportExport/calendarparser.cpp
 
 HEADERS += \
     ImportExport/RegexFilter.hpp \
@@ -49,8 +50,6 @@ HEADERS += \
     database/dbtabledefinition.hpp \
     ImportExport/calendarparser.hpp \
     ImportExport/calendarlayout.hpp \
-    ImportExport/eventtypeparser.hpp \
-    ImportExport/eventdescriptionlayout.hpp \
     ImportExport/rangedefinition.hpp
 
 RESOURCES += \

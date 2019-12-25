@@ -7,6 +7,7 @@ CONFIG += test
 INCLUDEPATH += ./../../../boost/boost_1_72_0/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/database
 INCLUDEPATH += ./../FirefighterTrainingPlaner/ImportExport
+INCLUDEPATH += ./../FirefighterTrainingPlaner/middleware
 INCLUDEPATH += ./../QXlsx/header/
 INCLUDEPATH += ./../FirefighterTrainingPlaner/container
 
@@ -19,8 +20,7 @@ SOURCES +=  tst_eventtest.cpp \
     tst_main.cpp \
     tst_fwdrilltypedbtest.cpp \
     tst_tablecreationtest.cpp \
-    ImportExport/tst_importcalendartest.cpp \
-    ImportExport/testeventtypeparser.cpp
+    ImportExport/tst_importcalendartest.cpp
 
 HEADERS += \
     ImportExport/calenderparsertest.hpp \
@@ -28,9 +28,7 @@ HEADERS += \
     autotest.hpp \
     tst_fwdrilltypedbtest.hpp \
     tst_tablecreationtest.hpp \
-    ImportExport/tst_importcalendartest.hpp \
-    container/channel.hpp \
-    ImportExport/testeventtypeparser.hpp
+    ImportExport/tst_importcalendartest.hpp
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../QXlsx/ -lQXlsx
