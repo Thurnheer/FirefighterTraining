@@ -91,4 +91,18 @@ static const IO::EventTime friedenslichttime { {friedenslicht}, QTime(17, 30), Q
 
 static const QVector<IO::EventTime> times{ zugtime, fahrertagtime, atemschutztime, hautpuebungtime, brandhaustime, rapporttime, neujahrstime, friedenslichttime };
 
+
+
+//-------------------------------------------------------------------------------------------------------------------------
+//
+// categories
+//
+//-------------------------------------------------------------------------------------------------------------------------
+static const std::pair<QVector<QRegularExpression>, IO::Category> catZug {{zug1, zug2, zug3, hauptuebung, exerciseAll}, IO::Category::zug};
+static const std::pair<QVector<QRegularExpression>, IO::Category> catMasch {{maschA, maschB, maschC, fahrertag, parkdienst}, IO::Category::masch};
+static const std::pair<QVector<QRegularExpression>, IO::Category> catAs {{atemschutzA, atemschutzB, atemschutzC, brandhaus}, IO::Category::as};
+static const std::pair<QVector<QRegularExpression>, IO::Category> catKommando {exerciseKommandoZug, IO::Category::kommando};
+static const std::pair<QVector<QRegularExpression>, IO::Category> catPiket {exercisePiketzug, IO::Category::piket};
+static const std::pair<QVector<QRegularExpression>, IO::Category> catAbsturz {exerciseAbsturz, IO::Category::absturz};
+
 #endif // NAMES_HPP

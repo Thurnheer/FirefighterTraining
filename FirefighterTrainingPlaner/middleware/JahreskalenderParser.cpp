@@ -7,22 +7,15 @@
 #include <QUuid>
 #include "xlsxformat.h"
 #include "xlsxcolor_p.h"
-#include "../ImportExport/calendarparser.hpp"
+#include "calendarparser.hpp"
 #include "pipe.hpp"
 #include "QStringList"
 #include "QVector"
 #include "converter.hpp"
 #include "Names.hpp"
 #include <utility>
-#include "ImportExport/calendarlayout.hpp"
-#include "ImportExport/drillparser.hpp"
-
-static const std::pair<QVector<QRegularExpression>, IO::Category> catZug {{zug1, zug2, zug3, hauptuebung, exerciseAll}, IO::Category::zug};
-static const std::pair<QVector<QRegularExpression>, IO::Category> catMasch {{maschA, maschB, maschC, fahrertag, parkdienst}, IO::Category::masch};
-static const std::pair<QVector<QRegularExpression>, IO::Category> catAs {{atemschutzA, atemschutzB, atemschutzC, brandhaus}, IO::Category::as};
-static const std::pair<QVector<QRegularExpression>, IO::Category> catKommando {exerciseKommandoZug, IO::Category::kommando};
-static const std::pair<QVector<QRegularExpression>, IO::Category> catPiket {exercisePiketzug, IO::Category::piket};
-static const std::pair<QVector<QRegularExpression>, IO::Category> catAbsturz {exerciseAbsturz, IO::Category::absturz};
+#include "calendarlayout.hpp"
+#include "drillparser.hpp"
 
 //------------------------------------------------------------------------------------------------
 //

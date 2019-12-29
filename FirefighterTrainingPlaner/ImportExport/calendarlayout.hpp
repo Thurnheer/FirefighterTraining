@@ -1,12 +1,16 @@
 #ifndef CALENDARLAYOUT_HPP
 #define CALENDARLAYOUT_HPP
 
-#include "rangedefinition.hpp"
 #include <array>
 #include <tuple>
 
 namespace IO
 {
+
+struct Cell {
+    int row;
+    int column;
+};
 
 enum class Category {
     unknown = 0,

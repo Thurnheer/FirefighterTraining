@@ -49,8 +49,7 @@ HEADERS += \
     database/dbconnectioninterface.hpp \
     database/dbtabledefinition.hpp \
     ImportExport/calendarparser.hpp \
-    ImportExport/calendarlayout.hpp \
-    ImportExport/rangedefinition.hpp
+    ImportExport/calendarlayout.hpp
 
 RESOURCES += \
     resources.qrc
