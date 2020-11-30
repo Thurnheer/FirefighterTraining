@@ -46,6 +46,7 @@ static const QRegularExpression day("Tag", QRegularExpression::CaseInsensitiveOp
 static const QRegularExpression neue("Neue AS", QRegularExpression::CaseInsensitiveOption);
 static const QRegularExpression infoabend("Infoab", QRegularExpression::CaseInsensitiveOption);
 static const QRegularExpression parkdienst("Parkdienst", QRegularExpression::CaseInsensitiveOption);
+static const QRegularExpression spezialEvent("Spez.*Event", QRegularExpression::CaseInsensitiveOption);
 
 //-------------------------------------------------------------------------------------------------------------------------
 //
@@ -55,7 +56,7 @@ static const QRegularExpression parkdienst("Parkdienst", QRegularExpression::Cas
 
 static const QVector<QRegularExpression> allEvents{ zug, exerciseAll, hauptuebung, brandhaus, fahrertag, jahresplanung, ausbildung,
             zugsrapport, wasistneu, friedenslicht, neujahr, absturz, piketzug, masch, atemschutz, kader, uof, off, zugfuehrer,
-            spezialisten, wbk, neue, infoabend, parkdienst};
+            spezialisten, wbk, neue, infoabend, parkdienst, spezialEvent};
 static const QVector<QRegularExpression> exerciseZug1{ zug1, exerciseAll, hauptuebung };
 static const QVector<QRegularExpression> exerciseZug2{ zug2, exerciseAll, hauptuebung };
 static const QVector<QRegularExpression> exerciseZug3{ zug3, exerciseAll, hauptuebung };
@@ -72,7 +73,7 @@ static const QVector<QRegularExpression> exerciseUof{ uof, kader, zugsrapport};
 static const QVector<QRegularExpression> exerciseOff{ off, kader, zugsrapport, wasistneu};
 static const QVector<QRegularExpression> exerciseZugfuehrer{ zugfuehrer, jahresplanung, ausbildung };
 static const QVector<QRegularExpression> exerciseSpezialisten{ spezialisten, neue };
-static const QVector<QRegularExpression> sonstiges{ neujahr, friedenslicht, infoabend };
+static const QVector<QRegularExpression> sonstiges{ neujahr, friedenslicht, infoabend, spezialEvent };
 
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ static const IO::EventTime brandhaustime { {brandhaus}, QTime(17, 15), QTime(23,
 static const IO::EventTime fahrertagtime { {fahrertag, day, wbk}, QTime(7, 00), QTime(12, 00)};
 static const IO::EventTime atemschutztime { {atemschutz}, QTime(19, 15), QTime(22, 15)};
 static const IO::EventTime rapporttime { exerciseZugfuehrer, QTime(19, 00), QTime(21, 00)};
-static const IO::EventTime neujahrstime { {neujahr}, QTime(18, 00), QTime(21, 00)};
+static const IO::EventTime neujahrstime { {neujahr, spezialEvent}, QTime(18, 00), QTime(21, 00)};
 static const IO::EventTime friedenslichttime { {friedenslicht}, QTime(17, 30), QTime(20, 00)};
 
 static const QVector<IO::EventTime> times{ zugtime, fahrertagtime, atemschutztime, hautpuebungtime, brandhaustime, rapporttime, neujahrstime, friedenslichttime };
